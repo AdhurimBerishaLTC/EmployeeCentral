@@ -1,4 +1,5 @@
 import Department from "../models/departmentModel.js";
+import User from "../models/userModel.js";
 
 interface CreateDepartmentInput {
   name: string;
@@ -43,6 +44,13 @@ export const departmentResolver = {
       });
 
       return department;
+    },
+  },
+  Department: {
+    employees: async (parent: any) => {
+      return User.find({
+        department: parent.id,
+      });
     },
   },
 };

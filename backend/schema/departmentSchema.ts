@@ -5,6 +5,7 @@ export const departmentTypeDefs = `#graphql
         code: String!
         description: String!
         manager: User
+        employees: [User!]!
         isActive: Boolean!
     }   
 
