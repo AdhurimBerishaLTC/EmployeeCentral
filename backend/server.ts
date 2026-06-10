@@ -7,19 +7,23 @@ import { startStandaloneServer } from "@apollo/server/standalone";
 import { userTypeDefs } from "./schema/userSchema.js";
 import { userResolver } from "./resolvers/userResolver.js";
 import { Query } from "mongoose";
+import { departmentTypeDefs } from "./schema/departmentSchema.js";
+import { departmentResolver } from "./resolvers/departmentResolver.js";
 
 const app = express();
 const PORT = process.env.PORT || 8080;
 
 const server = new ApolloServer({
-  typeDefs: [userTypeDefs],
+  typeDefs: [userTypeDefs, departmentTypeDefs],
 
   resolvers: {
     Query: {
       ...userResolver.Query,
+      ...departmentResolver.Query,
     },
     Mutation: {
       ...userResolver.Mutation,
+      ...departmentResolver.Mutation,
     },
   },
 });
