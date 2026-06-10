@@ -68,9 +68,15 @@ export const userTypeDefs = `#graphql
     status: UserStatus
   }
 
+
   type Query {
     getUsers: [User!]
     getUserById(id: ID!): User  
+    me: User
+  }
+
+  extend type Query {
+    me: User
   }
 
   type Mutation {
@@ -78,5 +84,6 @@ export const userTypeDefs = `#graphql
     updateUser(id: ID!, input: UpdateUserInput!): User!
     deleteUser(id: ID!): Boolean!
     login(email: String!, password: String!): AuthPayload!
+
   }
 `;

@@ -9,6 +9,7 @@ import { userResolver } from "./resolvers/userResolver.js";
 import { Query } from "mongoose";
 import { departmentTypeDefs } from "./schema/departmentSchema.js";
 import { departmentResolver } from "./resolvers/departmentResolver.js";
+import { verifyToken } from "./utils/verifyToken.js";
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -30,6 +31,22 @@ const server = new ApolloServer({
 
 const { url } = await startStandaloneServer(server, {
   listen: { port: 4000 },
+
+  context: async ({ req }) => {
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader) {
+      return { user: null };
+    }
+
+    const token = authHeader.replace("Bearer ", "");
+
+    const user = verifyToken(token);
+
+    return {
+      user,
+    };
+  },
 });
 
 console.log(`GraphQL server running at port: ${url}`);

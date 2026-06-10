@@ -64,6 +64,13 @@ export const userResolver = {
 
       return user;
     },
+    me: async (_: unknown, __: unknown, context: any) => {
+      if (!context.user) {
+        throw new Error("Unauthorized");
+      }
+
+      return await User.findById(context.user.userId);
+    },
   },
   Mutation: {
     createUser: async (_: unknown, { input }: { input: CreateUserInput }) => {
