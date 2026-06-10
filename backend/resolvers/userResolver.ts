@@ -111,6 +111,14 @@ export const userResolver = {
 
       return user;
     },
+    deleteUser: async (_: unknown, { id }: { id: string }) => {
+      const user = await User.findByIdAndDelete(id);
+
+      if (!user) {
+        throw new Error("User not found");
+      }
+      return !!user;
+    },
   },
   User: {
     department: async (parent: any) => {
