@@ -16,7 +16,7 @@ const server = new ApolloServer({
 
   resolvers: {
     Query: {
-      _empty: () => "GraphQL API running",
+      ...userResolver.Query,
     },
     Mutation: {
       ...userResolver.Mutation,
