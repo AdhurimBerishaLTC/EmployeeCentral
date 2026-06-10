@@ -57,7 +57,18 @@ export const departmentResolver = {
       _: unknown,
       { id, input }: { id: string; input: UpdateDepartmentInput },
     ) => {
-      const department = await Department.findByIdAndUpdate(id, input, {
+      const updateData: any = {
+        name: input.name,
+        code: input.code,
+        description: input.description,
+        isActive: input.isActive,
+      };
+
+      if (input.managerId) {
+        updateData.manager = input.managerId;
+      }
+
+      const department = await Department.findByIdAndUpdate(id, updateData, {
         new: true,
       });
 
@@ -82,6 +93,10 @@ export const departmentResolver = {
       return User.find({
         department: parent.id,
       });
+    },
+    manager: async (parent: any) => {
+      if (!parent.manager) return null;
+      return await User.findById(parent.manager);
     },
   },
 };
