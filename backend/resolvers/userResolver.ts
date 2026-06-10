@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import User from "../models/userModel.js";
 import Department from "../models/departmentModel.js";
+import jwt from "jsonwebtoken";
 
 interface CreateUserInput {
   email: string;
@@ -118,6 +119,30 @@ export const userResolver = {
         throw new Error("User not found");
       }
       return !!user;
+    },
+    login: async (
+      _: unknown,
+      { email, password }: { email: string; password: string },
+    ) => {
+      const user = await User.findOne({ email });
+
+      if (!user) {
+        throw new Error("Invalid credentials");
+      }
+
+      const isPasswordValid = await bcrypt.compare(password, user.passwordHash);
+
+      if (!isPasswordValid) {
+        throw new Error("Invalid credentials");
+      }
+
+      const token = jwt.sign(
+        { userId: user._id },
+        process.env.JWT_SECRET as string,
+        { expiresIn: "7d" },
+      );
+
+      return { token, user };
     },
   },
   User: {
