@@ -16,7 +16,43 @@ interface CreateUserInput {
   status?: "active" | "inactive" | "terminated";
 }
 
+interface IUser {
+  id: string;
+  email: string;
+  password: string;
+  employeeId: string;
+  firstName: string;
+  lastName: string;
+  phone?: string;
+  dateOfBirth?: string;
+  department?: string;
+  role?: "employee" | "team_lead" | "manager" | "hr" | "admin" | "super_admin";
+  employmentType?: "full_time" | "part_time" | "contractor" | "intern";
+  joiningDate?: string;
+  status?: "active" | "inactive" | "terminated";
+}
+
 export const userResolver = {
+  Query: {
+    getUsers: async () => {
+      const users = await User.find();
+
+      if (!users) {
+        throw new Error("No users found");
+      }
+
+      return users;
+    },
+    getUserById: async (_: unknown, { id }: { id: string }) => {
+      const user = await User.findById(id);
+
+      if (!user) {
+        throw new Error("User not found");
+      }
+
+      return user;
+    },
+  },
   Mutation: {
     createUser: async (_: unknown, { input }: { input: CreateUserInput }) => {
       const existingEmail = await User.findOne({ email: input.email });

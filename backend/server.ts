@@ -16,7 +16,7 @@ const server = new ApolloServer({
 
   resolvers: {
     Query: {
-      _empty: () => "GraphQL API running",
+      ...userResolver.Query,
     },
     Mutation: {
       ...userResolver.Mutation,
@@ -28,7 +28,7 @@ const { url } = await startStandaloneServer(server, {
   listen: { port: 4000 },
 });
 
-console.log(`Server running at port: ${url}`);
+console.log(`GraphQL server running at port: ${url}`);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
