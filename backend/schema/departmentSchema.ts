@@ -17,6 +17,14 @@ export const departmentTypeDefs = `#graphql
         isActive: Boolean!
     }
 
+    input UpdateDepartmentInput{
+        name: String
+        code: String
+        description: String
+        managerId: ID
+        isActive: Boolean
+    }
+
     extend type Query{
         getDepartments: [Department!]
         getDepartmentById(id: ID!): Department
@@ -24,5 +32,7 @@ export const departmentTypeDefs = `#graphql
 
     extend type Mutation {
         createDepartment(input: CreateDepartmentInput!): Department!
+        updateDepartment(id: ID!, input: UpdateDepartmentInput!): Department
+
     }
 `;

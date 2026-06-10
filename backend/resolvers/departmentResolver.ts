@@ -9,6 +9,14 @@ interface CreateDepartmentInput {
   isActive?: boolean;
 }
 
+interface UpdateDepartmentInput {
+  name?: string;
+  code?: string;
+  description?: string;
+  managerId?: string;
+  isActive?: boolean;
+}
+
 export const departmentResolver = {
   Query: {
     getDepartments: async () => {
@@ -42,6 +50,20 @@ export const departmentResolver = {
         manager: input.managerId,
         isActive: input.isActive ?? true,
       });
+
+      return department;
+    },
+    updateDepartment: async (
+      _: unknown,
+      { id, input }: { id: string; input: UpdateDepartmentInput },
+    ) => {
+      const department = await Department.findByIdAndUpdate(id, input, {
+        new: true,
+      });
+
+      if (!department) {
+        throw new Error("Department not found");
+      }
 
       return department;
     },
