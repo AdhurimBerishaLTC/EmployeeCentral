@@ -29,7 +29,7 @@ export const userTypeDefs = `#graphql
     lastName: String!
     phone: String
     dateOfBirth: String
-    department: ID
+    department: Department
     role: UserRole!
     employmentType: EmploymentType!
     joiningDate: String

@@ -1,5 +1,6 @@
 import bcrypt from "bcryptjs";
 import User from "../models/userModel.js";
+import Department from "../models/departmentModel.js";
 
 interface CreateUserInput {
   email: string;
@@ -87,6 +88,13 @@ export const userResolver = {
       });
 
       return user;
+    },
+  },
+  User: {
+    department: async (parent: any) => {
+      if (!parent.department) return null;
+
+      return await Department.findById(parent.department);
     },
   },
 };
