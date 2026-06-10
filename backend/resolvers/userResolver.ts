@@ -17,6 +17,16 @@ interface CreateUserInput {
   status?: "active" | "inactive" | "terminated";
 }
 
+interface UpdateUserInput {
+  firstName?: string;
+  lastName?: string;
+  phone?: string;
+  department?: string;
+  role?: "employee" | "team_lead" | "manager" | "hr" | "admin" | "super_admin";
+  employmentType?: "full_time" | "part_time" | "contractor" | "intern";
+  status?: "active" | "inactive" | "terminated";
+}
+
 interface IUser {
   id: string;
   email: string;
@@ -86,6 +96,18 @@ export const userResolver = {
         employmentType: input.employmentType || "full_time",
         joiningDate: input.joiningDate,
       });
+
+      return user;
+    },
+    updateUser: async (
+      _: unknown,
+      { id, input }: { id: string; input: UpdateUserInput },
+    ) => {
+      const user = await User.findByIdAndUpdate(id, input, { new: true });
+
+      if (!user) {
+        throw new Error("User not found");
+      }
 
       return user;
     },

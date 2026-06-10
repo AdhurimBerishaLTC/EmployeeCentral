@@ -53,6 +53,16 @@ export const userTypeDefs = `#graphql
     status: UserStatus
   }
 
+  input UpdateUserInput {
+    firstName: String
+    lastName: String
+    phone: String
+    department: ID
+    role: UserRole
+    employmentType: EmploymentType
+    status: UserStatus
+  }
+
   type Query {
     getUsers: [User!]
     getUserById(id: ID!): User  
@@ -60,5 +70,6 @@ export const userTypeDefs = `#graphql
 
   type Mutation {
     createUser(input: CreateUserInput!): User!
+    updateUser(id: ID!, input: UpdateUserInput!): User!
   }
 `;
