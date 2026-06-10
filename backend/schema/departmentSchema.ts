@@ -33,6 +33,6 @@ export const departmentTypeDefs = `#graphql
     extend type Mutation {
         createDepartment(input: CreateDepartmentInput!): Department!
         updateDepartment(id: ID!, input: UpdateDepartmentInput!): Department
-
+        deleteDepartment(id: ID!): Boolean!
     }
 `;

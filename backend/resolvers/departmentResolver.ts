@@ -67,6 +67,15 @@ export const departmentResolver = {
 
       return department;
     },
+    deleteDepartment: async (_: unknown, { id }: { id: string }) => {
+      const department = await Department.findByIdAndDelete(id);
+
+      if (!department) {
+        throw new Error("Department not found");
+      }
+
+      return !!department;
+    },
   },
   Department: {
     employees: async (parent: any) => {
