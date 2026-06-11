@@ -12,7 +12,26 @@ interface CreateTaskInput {
 }
 
 export const taskResolver = {
-  Query: {},
+  Query: {
+    getTasks: async () => {
+      const tasks = await Task.find();
+
+      if (!tasks) {
+        throw new Error("No tasks found");
+      }
+
+      return tasks;
+    },
+    getTaskById: async (_: unknown, { id }: { id: string }) => {
+      const task = await Task.findById(id);
+
+      if (!task) {
+        throw new Error("Task not found");
+      }
+
+      return task;
+    },
+  },
   Mutation: {
     createTask: async (_: unknown, { input }: { input: CreateTaskInput }) => {
       const task = await Task.create({
