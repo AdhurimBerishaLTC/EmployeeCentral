@@ -92,5 +92,8 @@ export const taskResolver = {
     assignedTo: async (parent: { assignedTo: string }) => {
       return await User.findById(parent.assignedTo);
     },
+    createdBy: async (parent: { createdBy: string }) => {
+      return await User.findById(parent.createdBy);
+    },
   },
 };
