@@ -78,6 +78,15 @@ export const taskResolver = {
 
       return task;
     },
+    deleteTask: async (_: unknown, { id }: { id: string }) => {
+      const task = await Task.findByIdAndDelete(id);
+
+      if (!task) {
+        throw new Error("Task not found");
+      }
+
+      return !!task;
+    },
   },
   Task: {
     assignedTo: async (parent: { assignedTo: string }) => {
