@@ -11,6 +11,16 @@ interface CreateTaskInput {
   createdBy: string;
 }
 
+interface UpdateTaskInput {
+  title?: string;
+  description?: string;
+  status?: "pending" | "in_progress" | "completed";
+  assignedTo?: string;
+  priority?: "low" | "medium" | "high";
+  dueDate?: string;
+  createdBy?: string;
+}
+
 export const taskResolver = {
   Query: {
     getTasks: async () => {
@@ -38,6 +48,34 @@ export const taskResolver = {
         ...input,
         dueDate: new Date(input.dueDate),
       });
+      return task;
+    },
+    updateTask: async (
+      _: unknown,
+      { id, input }: { id: string; input: UpdateTaskInput },
+    ) => {
+      const updateData: any = {
+        title: input.title,
+        description: input.description,
+        status: input.status,
+        priority: input.priority,
+        dueDate: input.dueDate ? new Date(input.dueDate) : undefined,
+      };
+
+      if (input.assignedTo) {
+        updateData.assignedTo = input.assignedTo;
+      }
+
+      if (input.createdBy) {
+        updateData.createdBy = input.createdBy;
+      }
+
+      const task = await Task.findByIdAndUpdate(id, updateData, { new: true });
+
+      if (!task) {
+        throw new Error("Task not found");
+      }
+
       return task;
     },
   },

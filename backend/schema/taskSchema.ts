@@ -26,6 +26,7 @@ export const taskTypeDefs = `#graphql
         assignedTo: ID
         priority: String
         dueDate: String
+        createdBy: ID
     }
 
     extend type Query {
