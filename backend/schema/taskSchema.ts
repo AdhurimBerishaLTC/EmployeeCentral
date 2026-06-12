@@ -5,6 +5,7 @@ export const taskTypeDefs = `#graphql
         description: String
         status: String
         assignedTo: User!
+        createdBy: User!
         priority: String
         dueDate: String
     }
