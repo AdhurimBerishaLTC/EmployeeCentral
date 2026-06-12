@@ -42,7 +42,7 @@ const Navbar = () => {
             ) : (
               <>
                 <Button onClick={() => navigate("/login")}>Login</Button>
-                <Button onClick={() => navigate("/signup")}>Sign Up</Button>
+                <Button onClick={() => navigate("/register")}>Sign Up</Button>
               </>
             )}
           </ul>

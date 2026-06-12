@@ -6,7 +6,6 @@ import jwt from "jsonwebtoken";
 interface CreateUserInput {
   email: string;
   password: string;
-  employeeId: string;
   firstName: string;
   lastName: string;
   phone?: string;
@@ -80,20 +79,14 @@ export const userResolver = {
         throw new Error("Email already exists");
       }
 
-      const existingEmployee = await User.findOne({
-        employeeId: input.employeeId,
-      });
-
-      if (existingEmployee) {
-        throw new Error("Employee already exists");
-      }
-
       const passwordHash = await bcrypt.hash(input.password, 12);
+
+      const employeeId = `EMP-${Math.floor(1000 + Math.random() * 9000)}`;
 
       const user = await User.create({
         email: input.email,
         passwordHash,
-        employeeId: input.employeeId,
+        employeeId,
 
         firstName: input.firstName,
         lastName: input.lastName,
