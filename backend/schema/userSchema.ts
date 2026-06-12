@@ -46,7 +46,6 @@ export const userTypeDefs = `#graphql
   input CreateUserInput {
     email: String!
     password: String!
-    employeeId: String!
     firstName: String!
     lastName: String!
     phone: String
